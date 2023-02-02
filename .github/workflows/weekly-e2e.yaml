@@ -19,9 +19,14 @@ jobs:
         continue-on-error: true
         run: |
           sh scripts/ci-e2e.sh
-      - name: Update
+      - name: Update Test Version Snapshot
         run: |
-          sh scripts/update-test-record.sh
+          sh scripts/ci-update-test-record.sh
+      - name: Fix Permission
+        run: |
+          cd .git
+          sudo chmod -R a+rwX .
+          sudo find . -type d -exec chmod g+s '{}' +
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
